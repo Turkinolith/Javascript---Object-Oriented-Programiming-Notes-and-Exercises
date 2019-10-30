@@ -1,0 +1,87 @@
+// OOP is a programming paradigm (aka- style) centered around objects rather than functions.
+
+// Several languages follow the OOP paradigm such as: C#, Java, Ruby, Python, JS, etc.
+
+
+// *********** The Four Pillars of OOP ***************
+// Asking about these is a popular interview question.
+// They are:
+//
+// #1 - Encapsulation
+//      - Grouped related variables and functions that relate to them. Reduce complexity and increase reusability
+// #2 - Abstraction
+//      - Reduces complexity & isolates impact of changes
+// #3 - Inheritance
+//      - Eliminate redundant code
+// #4 - Polymorphism
+        - Refactor ugly switch/case statements.
+
+// ************* ENCAPSULATION *****************
+// Before OOP there was "Procedural Programming"
+// it divided a program into a set of functions
+// Data is stored in a bunch of variables
+// and functions that operate on the data.
+
+// PROS of Procedural:
+// Very simple and straightforward. 
+// CONS of Procedural:
+// As programs get more complex, you'll find functions copied all over the place. If one functions changed others may break.
+// SPAGHETTI CODE is the term for this. So much interdependancy it becomes problematic.
+
+// Example of Procedural:
+let baseSalary = 30000;
+let overtime = 10;
+let rate = 20;
+function getWage(baseSalary, overtime, rate) {
+  return baseSalary + (overtime * rate);
+}
+
+
+// OOP
+// Combines group of related variables and functions into a unit. the unit is an object. 
+// Object variables are called properties and Object functions are called methods.
+// Grouped related variables and functions that relate to them is called "Encapsulation"
+
+// Example of OOP:
+let employee = {
+  baseSalary: 3000,
+  overtime: 10,
+  rate: 20,
+  getWage: function() {
+    return this.baseSalary + (this.overtime * this.rate);
+  }
+};
+employee.getWage();
+
+// Why is this better? Look at the getWage method, it requires no parameters where the procedural one requires 3.
+// The paramters it needs are modeled as properties of its object.
+// A symptom of procedural code is needing large numbers of parameters, where as object oriented code needs less.
+
+// "The best functions are those with no paramters."
+
+
+// ************ ABSTRACTION ***************
+// While the interior workings of the program may be complex, the interface is simple. The complexity is hidden from you.
+// The same can be done with our objects.
+// we can hide some of the properties and methods from the outside and this gives a couple of benefits.
+// #1 Simpler interface
+// #2 Reduces the impact of change. -You could remove or change several hidden methods and paramters of an object without affecting the rest of your applications code.
+
+// *********** Inheritance ****************
+// A mechanism that allows you to eliminate redundant code.
+// Example: Think of HTML elements like TextBox, Select, CheckBox and so on.
+// These elements have several attributes that are in common: Properties like Hidden, innerHTML and methods like click() and focus()
+// The properties can be defined in a single generic objected called HTMLElement and then those properties are inherited by all of the objects 
+
+// *********** Polymorphism ***************
+// Many Forms
+// A technique that allows you to get rid of long if-else or switch-case statements.
+// Using the HTML example above if we have lements like TextBox, Select, CheckBox they all need to be rendered in many different ways.
+// But if we used a switch statement on the render function, it would get long and complex. 
+// In object orientation we can implement a render method in each of the objects and it would behave differently depending on the 
+// type of object we are referencing. So we can get rid of the giant switch/case list and use a single line of code.
+
+
+
+
+
