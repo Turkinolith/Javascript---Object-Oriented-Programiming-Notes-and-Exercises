@@ -1,0 +1,55 @@
+// ********** OBJECTS ***********
+
+// Lets recap on subjects from basic JS:
+
+// ***** Object Literals *****
+// object literal syntax
+const circle = {
+    radius: 1,
+    draw: function() {
+        console.log('draw');
+    }
+};
+// Lets define some terms:
+// This circle object has 2 'Members': radius, draw.
+// if a member is a function, it is called a method
+// the other members are properties.
+// In OOP properties and methods are fundamentaly different because properties are used to hold values and a method is used to define logic.
+
+// ***** Object Factories *****
+// lets assume we want to create another circle.
+// In current implementation we have to duplicate all of that code.
+// And it can be a problem if there are 1 or more methods.
+// if there is a bug in the method we have to go and fix it within multiple places. Imagine if it had 10 methods!
+// Object literal syntax is not a good way to create an object and duplicate it if it has at least one method.
+
+// If an object has 1 or more methods it's said to have "BEHAVIOR"
+// if it doesn't have behavior, it's not really a big deal.
+
+// So, if it has behavior the best way to create an object is with a factory or constructor function.
+
+// Factory Function    Common way to declare objects in other programming languages
+function createCircle(radius, ) {
+    return {
+        radius,
+        draw: function() {
+            console.log('draw');
+        }
+    };
+}
+
+const circle = createCircle(1);
+
+// Constructor Function   Similar to class instances in C# and Java
+function Circle(radius) {
+    this.radius = radius;
+    this.draw = function() {
+        console.log('draw');
+    }
+}
+const another = new Circle(1);
+
+// ********* CONSTRUCTOR PROPERTY ***********
+// every object in JS has the constructor property
+// it references the function used to construct or create it.
+// Object Literals will return "f Object()" - The first letter of the function is in uppercase, that lets you know it was created by a built-in function.
