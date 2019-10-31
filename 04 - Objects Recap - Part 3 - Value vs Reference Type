@@ -1,0 +1,18 @@
+// ********** Value vs Reference Types ***********
+
+// ****** VALUE AKA PRIMITIVE *****
+// Number
+// String
+// Boolean
+// Symbol (New in ES6)
+// undefined
+// null
+
+// ****** REFERENCE *****
+// Object
+// Function (object)
+// Array (object)
+
+// Primitives are copied by value
+// Reference are copied by reference.
+
