@@ -1,0 +1,37 @@
+// ********** Functions are Objects ***********
+
+// If you look at the properties of a JS function you will see several things.
+// There are both methods (in VSCode represented by purple boxes) and properties (in VS code represented by blue squares)
+
+// And, like all objects, they have a constructor property.
+// example:
+function Circle(radius) {
+    this.radius = radius;
+    this.draw = function() {
+        console.log('draw');
+    }
+}
+// Note, the below code is exactly the same as above. 
+// When a function is declared, internally, it is represented like this.
+const Circle1 = new Function('radius', `
+this.radius = radius;
+this.draw = function() {
+    console.log('draw');
+}
+`);
+
+const circle = new Circle(1);
+const another = new Circle1(1);
+
+//  ********** EXAMPLE: THE NEW OPERATOR AND CALL ***************
+Circle.call({}, 1);
+// Call method, takes as its first argument a "this" arg. aka an object. we can pass an empty object into it. then for its second paramter, I'll just put 1
+// The above here, is functionally the exact same as the "new Circle(1)" bit of code above.
+// The new operator will internally create a new object and pass that as the first argument to the call method and the new object will
+// determine the context of this.
+// If you don't use the "new" keyword it is the same as doing the below:
+Circle.call(window, 1);
+
+// ********** APPLY ****************
+// Exactly like the call method but instead of passing arguments explicitly, you pass them with an array.
+// This is useful if you already have an array somewhere else in your application and you want to pass the array as the second argument
