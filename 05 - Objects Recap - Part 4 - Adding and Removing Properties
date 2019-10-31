@@ -1,0 +1,44 @@
+// ********** Adding or Removing Properties ***********
+
+// imagine your working with a user object.
+// the client that can be a web or mobile app is going to send a user object to the server.
+// on the server we get it and can add additional stuff to it. like a token property that we generate on the fly.
+// This makes JS really powerful because in other languages like C# or Java you'd have to go back and change the class.
+
+// Example:
+function Circle(radius) {
+    this.radius = radius;
+    this.draw = function() {
+        console.log('draw');
+    }
+}
+const circle = new Circle(10);
+
+circle.location = { x: 1 };
+// Another way to rewrite this with bracket notation:
+circle['location'] = { x: 1 };
+// dot notation is simpler and less verbose, but bracket is useful in certian situations.
+// example would be when you want to dynamicly access a property name.
+// lets imagine we have a constant set to a location
+// const propertyName = 'location';
+// so we have that somewhere in our app, now we want to access the location property of a circle.
+// if we're dealing with this dynamicly, at the time of writing the code we don't know what is the name of that property, that is calculated at runtime.
+// so we can type something like this:
+circle.location
+// but what we can do is use bracket noation:
+circle[propertyName] = { x: 1 }
+// another use case for bracket notation is when you are using property names that are not valid identifiers.
+// lets say the following:
+const propertyName = 'center-location';
+// we can't access this property like this. circle.center-location (this doesn't work!)
+// so if you have special characters or a space that is when you use bracket notation.
+
+// ***** REMOVING PROPERTIES *****
+// A real-world use case for removing properties, for example, is retrieving a user object from a database
+// then return the object to the client, but maby that user-object has certain properties you don't want to send to the client.
+// IE: Don't want to send the password or credit card info.
+// In that case, you will dynamicly delete one or more properties from the objects.
+// So, we use the delete operator and use the property name.
+delete circle.location;
+// Again, can use dot notation or brackets.
+delete circle['location'];
