@@ -1,0 +1,46 @@
+// ********** Enumerating Properties ***********
+// sometimes you need to iterate over (or enumerate) the properties of an object
+function Circle(radius) {
+    this.radius = radius;
+    this.draw = function() {
+        console.log('draw');
+    }
+}
+const circle = new Circle(10);
+
+// ***** FOR-IN LOOP *****
+// To do this, we can use a for-in loop.
+/* 
+for (const key in circle) {
+    console.log(key);
+}
+ */
+
+// ***** VALUE OF A PROPERTY *****
+// If you want the value we can use bracket notation.
+/* 
+for (const key in circle) {
+    console.log(key, circle[key]);
+} */
+
+// ***** TYPEOF *****
+// What if you want only properties and not methods? You can use the "typeOf" operator.
+for (const key in circle) {
+    if (typeof circle[key] !== 'function')
+    console.log(key);
+}
+
+// ***** OBJECT.KEYS *****
+// There is another approach to get all of the keys in an object.
+// Object object has a method called keys: Object.keys()
+// We can pass in the object we want to check:
+const keys = Object.keys(circle);
+// This will return all the keys of the circle object as an array.
+console.log(keys);
+// With this approach, you can't seperate properties from methods.
+
+// ***** IN OPERATOR *****
+// Sometimes you want to know if a given object has a particular property. For this use the "in" operator.
+// pass the property as a string, the in operator, then the object.
+if ('radius' in circle)
+    console.log('Circle has a radius');
