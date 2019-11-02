@@ -1,0 +1,61 @@
+// ********** Abstraction ***********
+// Means to hide the details, show the essentials
+
+// Lets assume in the below object builder we add a property called Default Location that has an object as its value.
+// Then lets add a function called ComputeOptimumLocation
+// We probably don't want the end user to be able to edit default location
+// For example, if you set default location to false, that will completely mess up the object.
+// maby we only want the user to run computeOptimaumLocation as a part of running the draw method.
+/* 
+function Circle(radius) {
+    this.radius = radius;
+    this.defaultLocation = { X: 0, y:0 },
+    this.computeOptimumLocation = function() {
+        //...
+    },
+
+    this.draw = function() {
+        this.computeOptimumLocation();
+        console.log('draw');
+    }
+}
+const circle = new Circle(10);
+ */
+// Anothere example: suppose we add a parameter to the computerOptimumLocation method.
+// If that method is exposed, now you have to go through the code and find every since that it is used and add the parameter to it where if it was kept hidden you'd have less
+// to maintain with your change.
+
+// Now, lets go over how to accomplish this:
+
+
+
+// ********* Private Properties and Methods *********
+
+// As covered before: when combined with the new keyword, this in the builder/constructor function becomes associated with the new object.
+// but, what if we use a "let" variable in the constructor function? "let color = 'red';"
+// it doesn't become associated, because we didn't set it as a property IE: this.coolor = 'red';
+// So, the variable set wtih "let" becomes only a local variable inside of the function. When we leave the function the variable goes out of scope and dies.
+// With this technique, we can hide certain members from the outside.
+// So: defaultLocation is am implementation detail that we don't want to be visable from the outside.
+// instead of setting it as a property on the object, we define it as a local variable
+// by the same token, we can convert the computeOptimumLocation method to a private function.
+// Now, in the draw method we're calling the computeOptimumLocation function. this will no longer be a method of the object but, since the scope of the draw method is a child
+// of the parent function, it can access the computeOptimumLocation function directly.
+// This is called (closure)
+function Circle(radius) {
+    this.radius = radius;
+    let defaultLocation = { X: 0, y:0 };
+    let computeOptimumLocation = function(factor) {
+        //...
+    }
+
+    this.draw = function() {
+        computeOptimumLocation(0.1);
+        // defaultLocation  --You can simply call the closure bound variables and functions
+        // this.radius      --You still need to use "this" to access members of the circle object.
+        console.log('draw');
+    };
+}
+const circle = new Circle(10);
+circle.draw();
+// Now, if you try to access members of this function you will only see "draw" and "radius"
