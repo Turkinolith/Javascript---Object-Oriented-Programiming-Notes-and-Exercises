@@ -1,0 +1,81 @@
+// *********** Objects Recap - Exercise - Stopwatch  ***********
+
+// create a stop-watch object
+// needs the Property:
+// duration - value should start at 0, each time that start is init it will begin to add to its value.
+// And the following methods:
+// reset - Should reset the object to initial state
+// start - if called a 2nd time after init should send the error "Stopwatch has already started."
+// stop  - If called a 2nd time after initi should send the error "Stopwatch is not started."
+
+// my implementation
+function Stopwatch() {
+    let offset = 0;
+    let stopped = true;
+    this.start = function() {
+        if (stopped) {
+            stopped = false;
+            offset -= Date.now();
+        }
+        else { throw new Error('Stopwatch has already started.'); }
+    },
+    this.stop = function() {
+        if (!stopped) {
+            stopped = true;
+            offset += Date.now();
+        } else { throw new Error('Stopwatch has not started.'); }
+
+    },
+    this.reset = function() {
+        if (stopped) {
+            offset = 0;
+        }
+    }
+    Object.defineProperty(this, 'duration', {
+        get: function() {
+            return offset / 1000;
+        }
+    });
+}
+
+const sw = new Stopwatch();
+
+// Instructor Implementation
+function InstructorStopwatch() {
+    let startTime, endTime, running, duration = 0;
+
+    this.start = function() {
+        if (running)
+            throw new Error('Stopwatch has already started.');
+
+        running = true;
+        startTime = new Date();
+    };
+
+    this.stop = function() {
+        if (!running)
+            throw new Error('Stopwatch is not started.');
+
+        running = false;
+
+        endTime = new Date();
+
+        const seconds = (endTime.getTime() - startTime.getTime()) / 1000;
+        duration += seconds;
+    };
+
+    this.reset = function() {
+        startTime = null;
+        endTime = null;
+        running = false;
+        duration = 0;
+
+    };
+
+    Object.defineProperty(this, 'duration', {
+        get: function() { return duration; }
+    });
+
+}
+
+const insw = new Stopwatch();
