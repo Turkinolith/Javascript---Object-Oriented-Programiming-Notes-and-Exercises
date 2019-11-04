@@ -1,0 +1,27 @@
+// *********** Prototypes ***********
+
+// ***** Classical Inheritance *****
+// Where an object takes on the properties and methods of another object.
+// A class or object which serves as the root of a tree of other classes or objects that inherit properties from them are refered to as the: Base, Super, or Parent.
+// Those that inherit the properties are called the Derived, Sub, or child class or object.
+// The inheritence relationship is referred to as "IS-A". So we say: "circle" IS-A "shape" (where shape is the parent class and circle a child class.)
+// This is the classical definition of inheritance.
+
+// JS, doesn't have classes it uses objects, so we go to the "Prototypical" inheritance.
+
+
+// ***** Prototypes and Prototypical Inheritance *****
+// A prototype is an object that is essentially the parent of another object.
+// When you think prototype, think parent.
+// Every object in JS except one has a prototype or parent and it inherents all of the members defined in the prototype.
+// Example:
+let x = {};
+let y = {};
+Object.getPrototypeOf(x) === Object.getPrototypeOf(y); // expected output: true
+// So, both of these objects have the same prototype object even though their empty.
+// Lets look at a method these objects share:
+x.toString();
+// How can we access this method?
+// When we access a property or method on an object, the JS engine first looks for that on the object itself.
+// if it can't find it, it will look at the proptotype for that object, and continue up the chain untill we reach the root object.
+// A prototype is just a regular object! Every object has a prototype or parent except for the root object.
