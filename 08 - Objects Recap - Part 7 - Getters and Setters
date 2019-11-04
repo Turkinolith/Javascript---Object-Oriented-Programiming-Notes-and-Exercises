@@ -1,0 +1,55 @@
+// *********** Getters and Setters ***********
+
+// ****** Getters *****
+// The defaultLocation entry is private to the below function
+function Circle1(radius) {
+    this.radius = radius;
+    let defaultLocation = { X: 0, y: 0 };
+    this.getDefaultLocation = function() {
+        return defaultLocation;
+    };
+    this.draw = function () {
+        console.log('draw');
+    };
+    Object.defineProperty(this, 'defaultLocation', {
+        get: function() {
+            return defaultLocation;
+        }
+    });
+}
+const circle = new Circle1(10);
+circle.draw();
+
+// But, lets say we want to be able to read the data within it from outside of the function, just not modify it.
+// One solution is to define a method, as shown on lines 6-8
+// This way, you can access the data with "circle.getDefaultLocation()" However, its nicer to access the property in another way.
+// circle.defaultLocation
+// To do this see lines 12-15. This property 'defaultLocation" is a read-only property.
+
+// ***** Setters ******
+// If you want to set the value of a property like this from the outside, you will need a "Setter"
+
+function Circle2(radius) {
+    this.radius = radius;
+    let defaultLocation = { X: 0, y: 0 };
+    this.getDefaultLocation = function() {
+        return defaultLocation;
+    };
+    this.draw = function () {
+        console.log('draw');
+    };
+    Object.defineProperty(this, 'defaultLocation', {
+        get: function() {
+            return defaultLocation;
+        },
+        set: function(value) {  // Because we're using a function, we can perform some validation of the value before setting it.
+            if (!value.x || !value.y) // If value x is falsey or value y is falsey, throw error.
+            throw new Error('Invalid Location.');
+            defaultLocation = value;  
+        }
+    });
+}
+const circlenew = new Circle2(10);
+circlenew.defaultLocation = { x: 1, y: 1 };
+console.log(circlenew.defaultLocation);
+circlenew.draw();
