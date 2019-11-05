@@ -1,0 +1,43 @@
+// *********** Prototypes ***********
+
+// ***** Property Descriptors *****
+
+let person = { name: 'Larry'}
+console.log(person); // You can see all of the methods available, including inherited methods. Note, if you enumerate the properties you won't see the inherited methods.
+for (let key in person)
+    console.log(key); // the only key that results is 'name', none of the properties and methods in objectBase show here.
+// by the same token, if we call Object.keys(person); we will only get 'name'
+console.log(Object.keys(person));
+
+// So, how come we can't iterate over all these properties and methods defined in objectBase?
+// The reason is because in JS our properties have attributes attached to them and sometimes those attributes prevent a property from being enumerated.
+// EX:
+let objectBase = Object.getPrototypeOf(person);
+// now, lets see the attributes attached to the "toString" property, or more accurately the "toString" method.
+
+// *** Property Descriptor ***
+
+let descriptor = Object.getOwnPropertyDescriptor(objectBase, 'toString') // This returns an object called a 'Property Descriptor'
+console.log(descriptor); // Returns {writable: true, enumerable: false, configurable: true, value: ƒ}
+// configurable: true -- This means we can delete this member if we want to.
+// enumerable: false -- this is why when we iterate over the person object, we couldn't see the "toString" method.
+// writable: true -- means we can over write over this method, we can change its implementation then set its value.
+// value property is set to a method and this is where we have the default implementation of the "toString" method.
+
+// WHen you create your own objects, you can set these attributes for your properties.
+// EX: lets use the person2 object:
+let person2 = { name: 'Larry'}
+// in last secont we learned about Object.defineProperty method to define a getter and a setter for a property.
+// so in first argument we pass person2, the second argument is the name of the target property which is name
+// and third argument is an object which is the property descriptor object. This is where we add the attributes to this property. 
+// Previously I used "get" and "set" but now we'll use the values from above in the same way.
+Object.defineProperty(person2, 'name', {
+    writable: false, // This makes it read-only
+    enumerable: false, // This makes the property no longer show up in .keys
+    configurable: false // Now, I can't delete this property. IE: delete person2.name won't work to remove it.
+});
+
+person2.name = 'Joe';
+console.log(person2); // Returns name: Larry, it won't let you overwrite it now.
+console.log(Object.keys(person2)); // Returns [], as the only key "name" is now hidden.
+// By default, all properties are 'true', writable, enumerable, and configurable.
