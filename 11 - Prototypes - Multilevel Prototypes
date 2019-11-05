@@ -1,0 +1,13 @@
+// *********** Prototypes ***********
+
+// ***** Multilevel inheritance *****
+let myArray = [];
+// has a prototype property __proto__
+// has a bunch of different methods.
+// indexOf, push, pop, etc.
+// in memory we have "myArray" which derives from, lets call it, arrayBase.
+// if we inspect the prototype for it, at the bottom of the __proto__ we see another __proto__ object.
+// There, we see the object base.
+// So, to visualise we have: [myArray] => [arrayBase] => [objectBase] This is what we call multilevel inheritance.
+
+// Objects Created by a given constructor will have the same prototype.
