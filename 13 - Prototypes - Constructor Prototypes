@@ -1,0 +1,57 @@
+// *********** Prototypes ***********
+
+// ***** Constructor Prototypes *****
+
+// The proper way to get the prototype of an object is Object.GetPrototypeOf(myObj);
+// What we get is exactly what we see in console under myObj.__proto__ (parent of myObj)
+// So if I want to put this together, if I assume that myObject is constructed Constructor:
+// Constructor.prototype() // constructor has a prototype property, what we get here is exactly the same as the (parent of myObj) above.
+
+// Constructors also have a prototype Property (because in JS functions are objects)
+function Circle(radius) {
+    this.radius = radius;
+}
+const circle = new Circle(1);
+
+Circle.prototype // What is this? this is the object that will be used as the parent for objects created by the Circle constructor.
+
+// let's see this in action by defining an empty obj.
+let obj = {};
+// This object has a prototype property which is it's parent, and that is objectBase.
+obj.__proto__
+// So, we have these members like constructor, hasOwnProperty, isPrototypeOf, and so on.
+// And this object is created using the object constructor function, so when I use the object literal syntax under the hood it is translated to a new object.
+// This constructor has a prototype property and this is the object that will be used as the prototype for all objects created by this constructor.
+Object.prototype(obj);
+// So, Object.prototype(obj) and obj.__proto__ are both equal, they point to the same parent for the object.
+
+// Another Example:
+// Lets define an array
+// let array = [];
+
+// array.__proto__  Returns [constructor: ƒ, concat: ƒ, copyWithin: ƒ, fill: ƒ, find: ƒ, …]
+// returns the object that includes all of the methods that can be called on arrays. so this can be called "arrayBase"
+// When we call array literal, under the hood array constructor will be called. This constructor has a prototype property which references arrayBase, same object
+// Array.prototype  Returns [constructor: ƒ, concat: ƒ, copyWithin: ƒ, fill: ƒ, find: ƒ, …]
+// Same object returned in both cases.
+
+// one more example: in console:
+circle // returns circle object, which has a __proto__ , which we will call "circleBase", which doesn't have anything specific, it only has the constructor property and another __proto__
+// Now, the circle object was created using the Circle constructor. That constructor function has a prototype property which returns "circleBase"
+// So, those two objects are exactly the same. IE:
+
+/*
+
+circle
+Circle {radius: 1}
+radius: 1
+__proto__:
+constructor: ƒ Circle(radius)
+__proto__: Object
+
+Circle.prototype
+{constructor: ƒ}
+constructor: ƒ Circle(radius)
+__proto__: Object
+
+*/
