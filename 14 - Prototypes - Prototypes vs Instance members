@@ -1,0 +1,70 @@
+// *********** Prototypes ***********
+
+// ***** Prototype vs Instance Members *****
+
+function Circle(radius) {
+    this.radius = radius;
+
+   /* this.draw = function () {
+        console.log('draw');
+    } */
+    this.move = function() {
+        this.draw();
+        console.log('move');
+    }
+}
+
+const c1 = new Circle(1);
+const c2 = new Circle(1);
+// if you log both c1 and c2 in the console, you will notice that both of them have the draw method.
+// if you had a large number of these objects in memory, each of them will have the draw method copied onto each of them, this can be very wasteful with memory with all the copies of these methods.
+// So, whats the solution?
+
+// Well, I know how prototypical inheritance works. when we access a property or method on an object, JS first looks at the object itself
+// then if it doesnt find it, it will go up the chain of inheritance.
+// **** So, have the method stored on a parent object instead of it being inherited by every child. ****
+
+// So, we take the draw method out of the circle obect and instead put it within its prototype that we will have
+// a single instance of.
+
+// How do we do that?
+// In last lection we learned that every constructor has a prototype property. So, using Circle.prototype we can quicly and safely access that object.
+// So as we know Javascript Objects are dynamic, so we can always add something to them later.
+// So, we can add the draw method: 
+Circle.prototype.draw = function() {
+    //this.move();
+    console.log('draw');
+}
+// And with that we no longer need the draw method on the object instance itself, so we remove it from the constructor (commented out above)
+// now, if you log the C1 and C2 again you will see they only have the radius property, the draw method is now on the prototype.
+
+// Because of prototypical inheritance, we can still access the draw method
+c1.draw();  // returns 'draw'
+// And everything works.
+
+// *** 2 Types of Properties and Methods in JS ***
+// Instance members
+// Prototype members
+
+
+// Lets take it to the next level
+// All objects in JS have the .toString method. By default it will return [object Object]
+c1.toString();
+// we can overwrite the implementation of this method in the prototype of our circle objects.
+Circle.prototype.toString = function() {
+    return 'Circle with radius' + this.radius;
+}
+// Now check it in the console:
+c1.toString();  // returns "Circle with radius 1"
+// So back to prototypical inheritance, when we call the method JS engine looks at the c1 object, we don't have the method there,
+// So, it looks now to the prototype, so Circle.prototype, since we have implemented the method there it stops searching and runs the method there.
+
+// Remember that in both of these kind of members, you can reference other members.
+// For example, in the draw method, which is a prototype method, we can call an instance method on the circle class. 
+// So, going back up top on line 11 I'll add a new method and call it this.move
+// now, we can reference ths function or this method more accurately in our prototype method. 
+// So, added to line 34: this.move();
+// So in console: c1.draw()  returns Move Draw
+// By the same token, in an instance method we can reference a prototype member.
+// So, lets reverse it on line 12 and add this.draw(); and comment out move on the draw function because otherwise we'll have a circular dependancy.
+// console: c1.move() returns => draw move
