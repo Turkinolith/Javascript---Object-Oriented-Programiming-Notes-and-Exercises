@@ -1,0 +1,40 @@
+// *********** Prototypes ***********
+
+// ***** Iterating Instance and Prototype Members *****
+// Instance Members
+function Circle(radius) {
+    this.radius = radius;
+    this.move = function() {
+        console.log('move');
+    }
+}
+
+// Prototype Members
+Circle.prototype.draw = function() {
+    console.log('draw');
+}
+
+const c1 = new Circle(1);
+
+c1.draw();
+// NOTE: It doesn't matter when you modify the prototype object. you could define 'c1' before declaring the draw method
+// and you'd still be able to access it because we're dealing with object references.
+// Remember as soon as we modify the object all of the changes are immediate.
+
+// ******************************************************
+// How to iterate over Instance vs Prototype Properties.
+// ******************************************************
+
+// Returns instance Members
+// ************************
+console.log(Object.keys(c1)); // Returns Instance Members [Radius, move], 'draw' isn't there because it is a prototype member.
+
+
+// Returns all members (instance + prototype)
+// ******************************************
+for (let key in c1) console.log(key); // Returns 'radius', 'move', 'draw'
+// In JS we often use the word "own" instead of instance. In some documents/tutorials you may hear "own properties"
+
+// Method: hasOwnProperty - Returns "true" if the property is "own" or instance.
+console.log(c1.hasOwnProperty('radius')); // True, because this is an "own"/instance property
+console.log(c1.hasOwnProperty('draw')); // false, because this is a prototype property
