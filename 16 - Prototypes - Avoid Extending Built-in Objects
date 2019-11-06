@@ -1,0 +1,21 @@
+// *********** Prototypes ***********
+
+// ***** Avoid Extending the Built-In Objects *****
+
+// let's assume you want to make a shuffle method for arrays in your application so you end up doing the following:
+// ** NOTE: DON'T DO THIS!
+
+Array.prototype.shuffle = function() {
+    // ..
+};
+const array = [];
+array.shuffle();
+
+// While this is very easy to do in JS, you should NOT DO THIS.
+
+// If you ever import a library, it is possible that the library may have extended the built in objects and may end up using a method with the same 
+// name as yours, but with a different implementation. Debugging this will become problematic. It's best practice to avoid it.
+
+// ***************************************************************************************************
+// DON'T MODIFY OBJECTS YOU DONT OWN!
+// ***************************************************************************************************
