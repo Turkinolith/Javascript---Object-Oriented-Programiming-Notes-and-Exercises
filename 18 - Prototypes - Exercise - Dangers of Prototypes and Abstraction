@@ -5,6 +5,10 @@
 // ************ THIS IS TO SHOW WHAT UNINTENDED CONSEQUENCES CAN ARISE FROM
 // ************ ATTEMPTING TO DO OPTIMIZATIONS VIA EXPOSING VALUES 
 // ************ IN ORDER TO WORK WITH PROTOTYPICAL INHERITANCE
+// ****** The problem with this prototype version is that with all of the internal variables now exposed
+// ****** the end-user could directly access the values of the variables and contaminate the results.
+// ****** This makes the program un-trustworthy.
+// ****** QUOTE: PREMATURE OPTIMIZATION IS THE ROOT OF ALL EVILS.
 
 // You should put methods on the prototype as an optimization technique.
 // This is so if you have large numbers of objects of this type in memory, you don't have the methods wasting memory from being duplicated.
