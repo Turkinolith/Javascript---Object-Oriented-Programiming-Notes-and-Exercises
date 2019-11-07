@@ -1,0 +1,108 @@
+// *** PROTOTYPE EXERCISE - 01 ***
+// Move the methods (such as start, Stop, reset) to the prototype of the stopwatch.
+// ************ Note:
+// ************ THIS LESSON INTENTIONALLY BREAKS THE ABSTRACTION PRINCIPAL
+// ************ THIS IS TO SHOW WHAT UNINTENDED CONSEQUENCES CAN ARISE FROM
+// ************ ATTEMPTING TO DO OPTIMIZATIONS VIA EXPOSING VALUES 
+// ************ IN ORDER TO WORK WITH PROTOTYPICAL INHERITANCE
+//
+// You should put methods on the prototype as an optimization technique.
+// This is so if you have large numbers of objects of this type in memory, you don't have the methods wasting memory from being duplicated.
+// In the case of a stopwatch, we don't really have that requirement. So, in a real case you wouldn't need to do this for a stopwatch object.
+// Also, as I will find out, putting them on the prototype will lead to a new issue, won't be able to access variables like "running" and "starttime"
+// Because the variables are in the scope of the function, NOT the prototype.
+// So, when you move the functions to the prototype they can only access the public members of the Stopwatch.
+// So to access 'running' you'd need to define it as a public read only member of the stopwatch and access it using this.running
+/* 
+function Stopwatch() { 
+    let startTime, endTime, running, duration = 0;
+  
+    this.start = function() {
+      if (running) 
+        throw new Error('Stopwatch has already started.');
+      
+      running = true; 
+  
+      startTime = new Date();
+    };
+  
+    this.stop = function() {
+      if (!running) 
+        throw new Error('Stopwatch is not started.');
+  
+      running = false; 
+        
+      endTime = new Date();
+  
+      const seconds = (endTime.getTime() - startTime.getTime()) / 1000;
+      duration += seconds; 
+    };
+  
+    this.reset = function() { 
+      startTime = null;
+      endTime = null;
+      running = false; 
+      duration = 0; 
+    };
+  
+    Object.defineProperty(this, 'duration', {
+      get: function() { return duration; }
+    });
+  }
+   */
+
+
+// **************************************
+// **** WORKING SOLUTION ****************
+// **************************************
+
+  function Stopwatch() { 
+  let startTime = null,
+  endTime = null, 
+  running = false, 
+  duration = 0;
+
+  Object.defineProperty(this, 'duration', {
+    get: function() { return duration; },
+    set: function(value) {duration = value;}
+  });
+  Object.defineProperty(this, 'startTime', {
+    get: function() { return startTime; },
+    set: function(value) {startTime = value;}
+    });
+  Object.defineProperty(this, 'endTime', {
+    get: function() { return endTime; },
+    set: function(value) {endTime = value;}
+  });
+  Object.defineProperty(this, 'running', {
+    get: function() { return running; },
+    set: function(bool) {running = bool;}
+  });
+};
+
+// Set Prototype methods
+Stopwatch.prototype.start = function () {
+  if (this.running) 
+      throw new Error('Stopwatch has already started.');
+  this.running = true; 
+  this.startTime = new Date();
+};
+
+Stopwatch.prototype.stop = function () {
+  if (!this.running) 
+    throw new Error('Stopwatch is not started.');
+  this.running = false; 
+  this.endTime = new Date();
+  const seconds = (this.endTime.getTime() - this.startTime.getTime()) / 1000;
+  this.duration += seconds; 
+};
+
+Stopwatch.prototype.reset = function () {
+  this.startTime = null;
+  this.endTime = null;
+  this.running = false; 
+  this.duration = 0; 
+};
+
+// Create working instance
+const watch = new Stopwatch();
