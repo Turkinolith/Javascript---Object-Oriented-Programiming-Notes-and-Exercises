@@ -5,7 +5,7 @@
 // ************ THIS IS TO SHOW WHAT UNINTENDED CONSEQUENCES CAN ARISE FROM
 // ************ ATTEMPTING TO DO OPTIMIZATIONS VIA EXPOSING VALUES 
 // ************ IN ORDER TO WORK WITH PROTOTYPICAL INHERITANCE
-//
+
 // You should put methods on the prototype as an optimization technique.
 // This is so if you have large numbers of objects of this type in memory, you don't have the methods wasting memory from being duplicated.
 // In the case of a stopwatch, we don't really have that requirement. So, in a real case you wouldn't need to do this for a stopwatch object.
