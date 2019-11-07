@@ -85,3 +85,4 @@ const c2 = new Circle();
 // **** If you look at the proto for Circle you will see the "draw" method inherited from Circle.prototype
 // **** if you look at the proto for Circle.prototype you will then see the "duplicate" method inherited from Shape.prototype
 // **** And finally if you look at the prototype here, you will see the ObjectBase.
+
