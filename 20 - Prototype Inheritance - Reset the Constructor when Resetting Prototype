@@ -1,0 +1,92 @@
+// *** Prototypical Inheritance - 02 - Resetting the Constructor ***
+
+// We start wtih the following:
+/* 
+function Shape() {
+}
+
+Shape.prototype.duplicate = function() {
+  console.log('duplicate');
+}
+
+function Circle(radius) {
+  this.radius = radius;
+}
+
+Circle.prototype = Object.create(Shape.prototype);
+
+Circle.prototype.draw = function() {
+  console.log('draw');
+}
+
+const s1 = new Shape();
+const c1 = new Circle(1);
+*/
+
+
+
+// There is a problem with this implementation. Let's remove line 16 so as to look like the following, then look at the console
+
+function Shape() {
+}
+
+Shape.prototype.duplicate = function() {
+  console.log('duplicate');
+}
+
+function Circle(radius) {
+  this.radius = radius;
+}
+
+
+Circle.prototype.draw = function() {
+  console.log('draw');
+}
+
+const s1 = new Shape();
+const c1 = new Circle(1);
+
+// Every Object in JS has a constructor property that returns the function used to create that object.
+console.log(c1);
+// Look at its __proto__, this is essentially [Circle.prototype].  There you can see its constructor property which references the Circle constructor.
+// Now technicly we can crate a Circle Object like this:
+// #1 - Circle.prototype // This returns the Circle Object
+// #2 - Circle.prototype.constructor // This returns the Circle constructor function, so at this point we can "new" it and pass a parameter
+
+new Circle.prototype.constructor(1);   // And this will return a new Circle object!!
+
+// it is exactly the same as: new Circle(1)
+
+// obviously we use the "new Circle(1)" form because it is shorter and cleaner, but in some rare circumstances you may have a constructor function
+// somewhere in code and you'd like to dynamicly create an object based upon that constructor function.
+
+// Now, let's get the original code back as #2:
+function Shape2() {
+}
+
+Shape2.prototype.duplicate = function() {
+  console.log('duplicate');
+}
+
+function Circle2(radius) {
+  this.radius = radius;
+}
+
+Circle2.prototype = Object.create(Shape2.prototype);
+Circle2.prototype.constructor = Circle2;
+
+Circle2.prototype.draw = function() {
+  console.log('draw');
+}
+
+const c2 = new Circle2(1);
+
+// Now, lets examine c2
+// Note, Shape2.prototype no longer has a constructor property!
+// So look at the prototype for the object.
+// There you see the constructor property, but it is returning the Shape function, not the Circle function.
+// in other words, with what we have now we can't create Circle objects based upon the constructor in a dynamic fashion.
+// The reason is because we reset the prototype for Circle on line 75.
+// As a best practice, whenever you reset the prototype of an object you should ALSO reset the constructor, as added on line 76.
+
+// **** TAKEAWAY: Whenever you reset the Prototype on a constructor function, reset the constructor property as well. ****
