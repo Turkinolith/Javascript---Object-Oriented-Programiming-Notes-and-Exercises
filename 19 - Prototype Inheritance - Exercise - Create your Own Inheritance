@@ -1,0 +1,87 @@
+// *** Creating your Own Prototypical Inheritance - 01 ***
+
+// We start wtih the following:
+/* 
+function Circle(radius) {
+  this.radius = radius;
+}
+
+Circle.prototype.draw = function() {
+  console.log('draw');
+}
+
+Circle.prototype.duplicate = function() {
+  console.log('duplicate');
+}
+ */
+// Lets imagine that tomorrow we will add a square function, and that square object should have a duplicate method with
+// the exact same implementation. Lets take advantage of inheritance to not have to replicate this code. Lets define a new "shape" object.
+// then, lets have both Circle and Square inherit the method from it.
+
+// First, lets make a shape constructor and set the duplicate method to it. Lets follow it up with Circle and its prototype.
+function Shape() {
+}
+
+Shape.prototype.duplicate = function() {
+  console.log('duplicate');
+}
+
+function Circle(radius) {
+  this.radius = radius;
+}
+
+/* 
+Circle.prototype.draw = function() {
+  console.log('draw');
+}
+ */
+
+// Now, lets create some new objects from each:
+/* 
+const s1 = new Shape();
+const c1 = new Circle();
+ */
+// Note that s1 has 'duplicate' in its prototype and c1 has 'draw' in its prototype.
+
+// Visually what is going on is:
+// [c1-Object] inherits from [circleBase or Circle.prototype] which inherits from [objectBase]
+
+// Similarly we also have:
+// [s1-Object] inherits from [shapeBase or Shape.prototype] which inherits from [objectBase]
+
+// Ultimately what we want is:
+// [c1-Object] inherits from [circleBase] which inherits from [shapeBase] which inherits from [objectBase]
+// How to do this?
+
+// In JS there is a method for creating an object with a given prototype:
+// Object.create(Shape.prototype) (argument here is the Object to use as a prototype.) This returns an object that inherits from [shapeBase]
+// Now all that is needed is to use this object as the prototype for Circles. So we reset Circle.prototype to this new object.
+
+Circle.prototype = Object.create(Shape.prototype);
+
+// Now, lets define some new objects and see if a race condition occured:
+/* 
+const s2 = new Shape();
+const c2 = new Circle();
+ */
+// Yep, 2 race conditions! 
+// First: creating C1 has left a Circle object in memory that is not using Shape as its prototype because it was created before
+// that associated was made. 
+// *** To solve this, move all object creation after the association of prototypes. (commented out 40-43 & 63-66, copied to 79-80)
+// Second: Because Circle.prototype was set after the draw prototype was assigned, the draw method can't be accessed now.
+// *** To solve this, move the assignment of the draw method to AFTER the Circle->Shape association. (Commented out 33-37, pasted to 74-77)
+
+Circle.prototype.draw = function() {
+  console.log('draw');
+}
+
+
+const s2 = new Shape();
+const c2 = new Circle();
+
+// **** NOte when viewing in console in Chrome: c2 will display Circle {radius: undefined}, meaning it is a Circle object.
+// **** When viewed, the __proto__ will display "Shape" next to it, this doesn't mean its a shape object, it is the [circleBase] object, but the
+// **** parent for [circleBase] is the "Shape" object. It's one degree removed so a little confusing at first.
+// **** If you look at the proto for Circle you will see the "draw" method inherited from Circle.prototype
+// **** if you look at the proto for Circle.prototype you will then see the "duplicate" method inherited from Shape.prototype
+// **** And finally if you look at the prototype here, you will see the ObjectBase.
