@@ -1,0 +1,68 @@
+// *** Prototypical Inheritance - 05 - Method Overriding ***
+// The code from the previous lesson has been cut-down to focus on this concept.
+/*
+function extend(Child, Parent) {
+  Child.prototype = Object.create(Parent.prototype);
+  Child.prototype.constructor = Child;
+}
+
+function Shape() {
+}
+
+Shape.prototype.duplicate = function() {
+  console.log('duplicate');
+}
+
+function Circle() {
+}
+
+extend(Circle, Shape);
+
+const c1 = new Circle();
+*/
+
+// If you look in console you can type c1.duplicate() and you'll get 'duplicate' as expected.
+
+// Sometimes, you may not want a method attached to a parent to be inherited by the child object.
+// Lets say that the duiplicate method works for most shapes, but it should behave differently for Circle objects.
+
+// This is where you use Method Overriding.
+
+// All we have to do is redefine the method within the Circle object.
+// So, lets copy the duplicate function
+
+function extend(Child, Parent) {
+  Child.prototype = Object.create(Parent.prototype);
+  Child.prototype.constructor = Child;
+}
+
+function Shape() {
+}
+
+Shape.prototype.duplicate = function() {
+  console.log('duplicate');
+}
+
+function Circle() {
+}
+
+extend(Circle, Shape);
+
+Circle.prototype.duplicate = function() { // **** IMPORTANT **** It's very important that we do this **AFTER** extending because at this point we're resetting the prototype.
+  console.log('duplicate Circle');        // IF we did this BEFORE the extend, it would be overwritten and this change would disappear.
+}
+
+const c1 = new Circle();
+c1.duplicate();                           // Returns 'duplicate Circle' as expected.
+
+// Sometimes you may want to call the implementation on the parent object as well.
+// Here lets imagine that we're going to call the 'duplicate' function on the parent or [Shape] object.
+// if you are not using 'this' in the implementation you can call that like a regular function
+// if you ARE using 'this', you will need to use the call method to set the context for 'this'
+
+Circle.prototype.duplicate = function() {
+  Shape.prototype.duplicate.call(this)
+  console.log('duplicate Circle');       
+}
+// now, lets check it:
+c1.duplicate(); // Returns 'duplicate' from the duplicate method in the Shape Object, and 'duplicate Circle' from the Circle object.
