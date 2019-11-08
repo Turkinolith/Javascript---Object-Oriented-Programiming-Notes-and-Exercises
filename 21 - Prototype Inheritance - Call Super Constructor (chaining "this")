@@ -1,0 +1,50 @@
+// *** Prototypical Inheritance - 03 - Calling the Super Constructor ***
+
+// We start wtih the shape constructor again, but lets add a color argument, we want all shapes to have a color.
+
+// With the current implementation, when we create a Circle object, we only pass "radius" to it. So, if we log c1 on the console 
+// there is only a "radius" property. However we know that it should inherit the color property and it should be initialized at the time
+// of creating a circle. How to do this?
+
+// Simple, in the Circle consctructor, we should call the shape constructor.
+
+// One easy way to do this (which actualy doesn't work) is call Shape() in the Circle constructor and pass color as an arguement to it and as a 
+// secondary argument to the Circle function.
+// Why doesn't this work? Because when you use the "New" operator 3 things happen: it creates an empty object, it sets "this" to point to that object.
+// finally that object will be returned from the constructor.
+
+// ****** WHY DOESN'T IT WORK?
+// If you don't use the new operator "this" by default will point towards the global object.
+// So, since the Shape function uses this and it is being called WITHOUT the 'new' operator, the color property is actually being set on the global object.
+// IE: window object.
+
+// ****** To fix it: 
+// We need to call the shape function, but set "this" in it to point towards the new instance of the Circle object.
+// REMEMBER: Every function is an object. Shape.call() <-- Look at the first argument of the call method, it takes an object to be used for "this"
+
+// So we rewrite the function: OLD BROKEN: Shape(color);
+// FIXED: Shape.call(this, color); <-- We pass the current "this" as the object and call the function with its argument variable.
+
+// This is how you call the super constructor.
+
+function Shape(color) {
+  this.color = color;
+}
+
+Shape.prototype.duplicate = function() {
+  console.log('duplicate');
+}
+
+function Circle(radius, color) {
+  Shape.call(this, color);  // Fixed code.
+  this.radius = radius;
+}
+
+Circle.prototype = Object.create(Shape.prototype);
+Circle.prototype.constructor = Circle;
+
+Circle.prototype.draw = function() {
+  console.log('draw');
+}
+
+const c1 = new Circle(1, 'red');
