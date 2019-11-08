@@ -1,0 +1,62 @@
+// *** Prototypical Inheritance - 06 - Polymorphism ***
+// Means: Many Forms
+// Lets define a new Shape Object, square
+// Now we have a simple heirarchy, one parent object [shape] and two derivitives or child objects: [Circle] and [Square]
+// Each child object will provide a different implementation of the duplicate method.
+// So, we have many implementations or many forms of the duplicate method. This is Polymorphism.
+
+function extend(Child, Parent) {
+  Child.prototype = Object.create(Parent.prototype);
+  Child.prototype.constructor = Child;
+}
+
+// Shape Section
+function Shape() {
+}
+
+Shape.prototype.duplicate = function() {
+  console.log('duplicate');
+}
+
+// Circle Section
+function Circle() {
+}
+
+extend(Circle, Shape);
+
+Circle.prototype.duplicate = function() {
+  console.log('duplicate Circle');
+}
+
+// Square Section
+function Square() {
+}
+extend(Square, Shape);
+Square.prototype.duplicate = function() {
+  console.log('duplicate Square');
+}
+
+const shapes = [
+  new Circle(),
+  new Square()
+];
+for (let shape of shapes)
+shape.duplicate();
+// Get 2 outputs: 'duplicate Circle', 'duplicate Square'
+
+// This allows us to avoid stuff like the following:
+// The functions are imaginary stand-alone functions.
+for (let shape of shapes) {
+  if (shape.type === 'Circle')
+    duplicateCircle();  // This function is not part of any objects, its stand-alone. this is the non object oriented way of writing code.
+  else if (shape.type === 'Square')
+    duplicateSquare();
+}
+
+// What if we had 10 different types of shapes? This block of code will get very big.
+
+// In contrast, when we encapsulate functions and varaibles into objects and use inheritance we can execute many different
+// forms of methods using a single line of code. Then the above could turn into:
+for (let shape of shapes) {
+  shape.duplicate();
+}
