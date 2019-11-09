@@ -1,0 +1,28 @@
+// *** Prototypical Inheritance - 07 - When to Use Inheritance ***
+// While inheritance is great for solving the problem of code reuse, you have to be careful about using it as it can
+// make your source code complex and fragile.
+
+// ***********************************************************************************************
+// Don't use inheritance for the sake of using it, especially in small projects. Keep it simple! *
+// **********************************************************************************************
+
+// Start with simple objects, and if you see a number of objects start to share similar features then perhapse you can 
+// encapsulate those features inside of a generic object and use inheritance.
+
+// There is another technique that can help address the problem of code-reuse "COMPOSITION" which will go over later.
+
+// Avoid creating inheritance hierarchies!
+// Good example is [Animal] has methods eat() and walk()
+// You have [people] and [dog] objects, but want to add [fish], but fish don't walk(), they swim()
+// So now you have to go back and reconfigure your inheritance hierarchey to add an aquatic option or you would be putting in overrides on your swimmers.
+// This gets complex fast, Try to only have one level of inheritance!
+
+// Favor Composition over Inheritance!
+
+// With composition instead of having a complex hierarchy we have a few basic objects that we can compose together to create a new object.
+// IE: have 3 objects [canWalk], [canEat], [canSwim]. Each of these are plain JS objects with certain properties and methods.
+// Want to have a [person] object? just compose objects together such as [canWalk] and [canEat]
+// Want a [goldfish]? compose [canEat] and [canSwim].
+// So, no hierarchy and we can compose together any combo of objects to make new ones.
+
+// In JS you use "Mixins" to achieve composition.
