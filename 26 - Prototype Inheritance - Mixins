@@ -1,0 +1,61 @@
+// *** Prototypical Inheritance - 08 - Mixins ***
+
+function mixin(target, ...sources) {  //Use the rest operator to allow multiple arguments.
+  Object.assign(target, ...sources);  // This method doesn't work on arrays, it needs explicit values, so use spread operator to break the rest operator array into parts. Looks exactly the same.
+}
+
+// Here, we define a feature as an object.
+const canEat = {
+  eat: function() {
+    this.hunger--;
+    console.log('eating');
+  }
+};
+
+// similarly, we define another feature.
+const canWalk = {
+  walk: function() {
+    console.log('walking');
+  }
+};
+
+// Now, we can composte these together to create a [person] that can eat and can walk.
+// In ES6 we have a new method: Object.assign to copy properties and methods from one object to another.
+
+// const person = Object.assign({}, canEat, canWalk) //You specify the target obect in argument #0, in this case I use a new empty object, then add as many objects into it for follow up arguments.
+// The return will be the object that has all the paramters and methods of the assigned objects.
+// console.log(person);
+// person returns: {eat: ƒ, walk: ƒ}
+
+// If you are using a constructor function you can still use this technique.
+
+function Guy() {
+  this.gender = 'Male';
+}
+Object.assign(Guy.prototype, canEat, canWalk) // Instead of passing an empty object, we can pass the constructor.prototype
+// Note, this happens in-situ.
+console.log(Guy.prototype); // Returns {eat: ƒ, walk: ƒ, constructor: ƒ}
+
+const Larry = new Guy();
+console.log(Larry); // Returns: Guy {gender: "Male"}, prototype has eat: F(), and walk: f()
+console.log(Larry.eat());
+console.log(Larry.walk());
+
+// Let's say that tomorrow we are going to add 2 new objects into this application: [Goldfish] and [duck], both should have swim.
+
+const canSwim = {
+  swim: function() {
+    console.log('swimming');
+  }
+};
+
+function Goldfish() {
+}
+
+// Using the new mixin function, we can replace Object.assign with it. End result is the same, just less typing now.
+mixin(Goldfish.prototype, canEat, canSwim);
+
+const Derpy = new Goldfish();
+console.log(Derpy);
+
+// To make the code more readable, we can extract the logic from the Object.assign into a function called Mixin. I'll define it on the top.
