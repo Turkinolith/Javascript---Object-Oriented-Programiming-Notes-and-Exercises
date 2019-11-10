@@ -1,0 +1,35 @@
+// *** Prototypical Inheritance - 09 - Exercise - Prototypical Inheritance ***
+
+// Design 2 objects. HtmlElement, HtmlSelectElement which represents a dropdown list (Note: this is asking to make these functions, not use the
+// built-in versions.)
+// there should be prototypical inheritance by HtmlSelectElement and its parent, HtmlElement.
+
+function HtmlElement() {
+    this.click = function() {
+        console.log('clicked');
+    }
+}
+
+HtmlElement.prototype.focus = function() {
+    console.log('focused');
+}
+
+function HtmlSelectElement(items = []) {
+    this.items = items;
+
+    this.addItem = function(item) {
+        this.items.push(item);
+    }
+
+    this.removeItem = function(item) {
+        this.items.splice(this.items.indexOf(item), 1);
+    }
+}
+
+HtmlSelectElement.prototype = new HtmlElement();
+HtmlSelectElement.prototype.constructor = HTMLSelectElement;
+
+// Verification:
+const s = new HtmlSelectElement();
+console.log(s.click());
+console.log(s.focus());
