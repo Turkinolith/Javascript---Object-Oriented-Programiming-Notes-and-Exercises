@@ -1,0 +1,36 @@
+// *** ES6 Classes - Hoisting ***
+
+// IN JS there are 2 ways to define functions
+// Function Declaration
+function sayHello() {}      // semicolon is not needed for a Declaration
+
+// Function Expression
+const sayGoodbye = function() {};  // By convention, expressions should have the semicolon at the end.
+
+/*
+semicolons side, there is a critical difference between the declaration and expression in JS.
+
+**** Declarations are Hoisted, their raised to the top of the code by the compiler. ****
+So, you can call bits of code before their declared and that will still be perfectly valid code since the compiler will move
+the declaration to the top.
+
+In contrast, Expressions are NOT hoisted.
+
+So, if I put sayGoodbye(); on line 2, it will give an error that sayGoodbye is not defined.
+same thing if I put in a primitive:
+const number = 1;
+if I put a console.log(number) on line 2, it will also give the same error.
+*/
+
+// Classes can be defined either with an Expression or Declaration.
+// NOTE: Classes regardless of Declaration or Expression, are *NOT* hoisted.
+
+// Class Declaration
+class Circle{
+}
+
+// Class Expression
+const Square = class {
+};
+
+// Which to use? Pretty much everyone uses the Declaration syntax.
