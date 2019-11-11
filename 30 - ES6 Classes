@@ -1,0 +1,57 @@
+// *** ES6 Classes - 01 - ES6 Classes ***
+
+// In ES6 there is a new way to create objects and implement inheritance, classes.
+// JS Classes are not like classes in languages like C# and in Java, their syntatic sugar overtop prototypical inheritance.
+
+// here is a basic constructer that I've been using:
+function Circle(radius) {
+    this.radius = radius;
+
+    this.draw = function() {
+        console.log('draw');
+    }
+}
+
+// Lets convert this to an ES6 class:
+
+class Circle2 {   // This first set of code braces is called the "body" of the class. Methods for the class need to be defined in the body.
+    constructor(radius) {
+        this.radius = radius;
+        this.move = function() { // method that appears on the object instead of the prototype, see line #46
+            console.log('moving');
+        }
+    }
+
+    draw() {    // Note, you don't use any assignment or function keyword, just attach it directly to the class body.
+        console.log('draw');
+    };
+}
+
+// Now, can create new Circle objects just like before:
+
+const bigC = new Circle2(2);
+
+/*
+
+bigC properties are:
+    Circle2 {radius: 2}
+    radius: 2
+    __proto__:
+        constructor: class Circle2
+        draw: ƒ draw()
+        __proto__: Object
+
+*/
+
+// Note, if you want a method to appear on the object instead of the prototype, you need to define it on the constructor part of the class.
+
+/*
+Another note: typeof Circle2 returns "function", thats why classes are essentialy functions.
+Goto: babeljs.io
+on the "Put in next-gen JavaScript" put in:
+class Circle {
+    constructor(radius) { this.radius = radius; }
+}
+you'll see in the output that it is a giant function.
+
+*/
