@@ -1,0 +1,106 @@
+// *** Prototypical Inheritance - 10 - Exercise - Polymorphism ***
+
+// Extend the HTMLSelectElement from the last exercise and implement a render() method.
+// So: add an array of values into the HTMLSelectElement as an argument.
+// run the render method on the object
+// should return a pre-configured HTML block that looks like this (Note it is all in a string) 
+
+/*
+"
+<select>
+    <option>1</option>
+    <option>2</option>
+    <option>3</option>
+</select>"
+*/
+
+// Similarly, create an "HTMLImageElement" that inherits from HTMLElement.
+// It should have a "src" attribute as an argument.
+// So, it should have the click and focus methods.
+// It should have its own render method (hence, polymorphism.)
+// So, object should look like: {src: undefined, render: f} when inspected, with everything else in its prototype.
+// Prototype is HTMLElement with click method and constructor set to HTMImageElement(src)
+// so: if an object called img is created and you set img.src = 'http://';
+// then, if you run img.render() it should return: "<img src="http://" />"
+
+// ** HTML ELEMENT BLOCK
+function HtmlElement() {
+    this.click = function() {
+        console.log('clicked');
+    }
+}
+
+HtmlElement.prototype.focus = function() {
+    console.log('focused');
+}
+// ** END HTML ELEMENT BLOCK **
+
+// ** HTML SELECT ELEMENT BLOCK
+function HtmlSelectElement(items = []) {
+    this.items = items;
+
+    this.addItem = function(item) {
+        this.items.push(item);
+    }
+
+    this.removeItem = function(item) {
+        this.items.splice(this.items.indexOf(item), 1);
+    }
+
+    this.render = function(items) {
+        if (!Array.isArray(this.items)) throw new Error('Arr is not an array.');
+        let holdArr = [];
+        for (let element of this.items)
+            holdArr.push(`  <option>${element}</option>`);
+        holdArr.unshift('<select>');
+        holdArr.push('</select>');
+        return holdArr.join("\n");
+    }
+
+}
+HtmlSelectElement.prototype = new HtmlElement();
+HtmlSelectElement.prototype.constructor = HTMLSelectElement;
+// ** END HTML SELECT ELEMENT BLOCK **
+
+// ** HTML IMAGE ELEMENT BLOCK
+function HTMLImageElement(src) {
+    this.src = src;
+
+    this.render = function(src) {
+        if (typeof this.src !== 'string') throw new Error('Image Element source is not a string.');
+        return (`<img src="${this.src}" />`);
+    }
+}
+HTMLImageElement.prototype = new HtmlElement();
+HTMLImageElement.prototype.constructor = HTMLImageElement;
+// ** END HTML IMAGE ELEMENT BLOCK **
+
+
+// Once this is done, create a new array of elements and iterate over them with the render method.
+// Note, the clg should not be part of the render method itself.
+
+const elements = [
+    new HtmlSelectElement([1, 2, 3]),
+    new HTMLImageElement('http://')
+];
+for (let element of elements)
+    console.log(element.render());
+
+
+// Instructor solution:
+// His solution for the image element was exactly the same!
+// The render method for the Select Element differed however as it used a loop within a template string (didn't know I could do that!)
+
+/*
+this.render = function() {
+    return `
+<select>${this.items.map(item => `
+  <option>${item}</option>`).join('')}
+</select>`;
+}
+*/
+
+// in line 97 and carrying over to 98, its referencing this.items which is the array of items, it uses the map method to get each item and convert it, 
+// into a template literal with the carrage return + item value passed into it for each instance in the array. The map method returns an array so
+// it is directly passed on line 98 into a join method using an empty string as the join type. this converts them all into a string,
+// then pushes this string into the template literal.
