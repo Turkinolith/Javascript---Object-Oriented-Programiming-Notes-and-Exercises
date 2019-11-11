@@ -1,0 +1,37 @@
+// *** ES6 Classes - Static Methods ***
+/*
+In classical Object Oriented languages we have 2 types of methods
+Instance - Avalible on an "instance" of a class, an object.
+Static - Avalible on the class itself, not the object instance. Often used for utility functions not specific to a specific object.
+
+*/
+
+
+class Circle {
+    constructor(radius) {
+        this.radius = radius;
+    }
+    
+    // Instance Method
+    draw() {  // This is specific to the object, we'd want to use this for a particular circle object we want to draw.
+    }
+
+    // Static Method - Use the static keyword. this will make this method not show up on the object.
+    static parse(str) {
+        const radius = JSON.parse(str).radius;
+        return new Circle(radius);
+    }
+}
+
+// const c1 = new Circle(1);
+// console.log(c1); // Returns Circle {radius: 1}, no parse method
+// But, you can find the parse method if you search for: Circle.parse, we're working with the Circle class itself, so to call static methods we dont
+// have to create an instance of the class.
+// See the edits to the parse method above, now we don't have to call a circle object first because we don't have a circle object to start with.
+// Now I can do the following: write a function that takes a JSON object and run it through the static parse method.
+const circle = Circle.parse('{ "radius": 1 }' );
+console.log(circle);
+// Now, this static method returns a circle object.
+
+// Recap: Use static methods to create utility functions not tied to a specific object.
+
