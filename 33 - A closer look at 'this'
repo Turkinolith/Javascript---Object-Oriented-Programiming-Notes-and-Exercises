@@ -1,0 +1,38 @@
+// *** ES6 Classes - A closer look at "this" ***
+/*
+'use strict';
+const Circle = function() {
+    this.draw = function() {
+        console.log(this); }
+};
+
+const c = new Circle();
+// Method Call - Because we're calling a method on an object. "This" will point to the object.
+c.draw();
+const draw = c.draw;
+
+*/
+// Function Call -- This is stand alone and not part of an object, so by default "this" points to the global object (Window in browser, Global in Node)
+// draw(); // With normal behavior, this will return the "window" object, with 'use strict' enabled it returns 'undefined'.
+
+// JS has a ***STRICT MODE*** 
+// When enabled JS engine will be more sensitive and errors that would otherwise silently fail will turn them into exceptions.
+// It will also change behavior of "this" in functions.
+// To enable, add a string at the top 'use strict';
+
+// With Strict Mode active, 'this' will no longer point to the global object if we call a method as a function.
+// This is to prevent us from accidently modifying the global object.
+// There is more to the strict mode, beyond the scope of this course.
+
+class Circle {
+    draw() {
+        console.log(this);
+    }
+}
+
+const c = new Circle();
+const draw = c.draw;
+draw();
+//What is the output? Undefined
+// Because the body of a class is, by default, executed in strict mode regardless if strict mode is enabled or not.
+// This is to prevent you from accidently modifying the global object.
