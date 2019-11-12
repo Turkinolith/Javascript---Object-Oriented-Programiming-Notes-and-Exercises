@@ -1,0 +1,61 @@
+// *** ES6 Classes - Getters and Setters ***
+
+// Here we have defined a private property, _radius.
+// Lets assume we want to read it from the outside, but not set it.
+
+// *** GETTER ***
+// One way is to define a public method like: getRadius() { return _radius.get(this);} then in console we can do cir.getRadius() 
+
+// Instructor doesn't like that as you have to call a method. It would be nicer if we could read it like a property.
+
+// To do so in ES6 lets take the function above and rename it to "radius" so it looks like a property and then simply add the get keyword on the front.
+// See below:
+/* 
+const _radius = new WeakMap();
+
+class Circle {
+    constructor(radius) {
+        _radius.set(this, radius);
+    }
+
+    get radius() {
+         return _radius.get(this);
+        }
+}
+const cir = new Circle(2);
+console.log(cir.radius);
+
+ */
+
+ // *** SETTER ***
+
+ const _radius = new WeakMap();
+
+class Circle {
+    constructor(radius) {
+        _radius.set(this, radius);
+    }
+
+    get radius() {
+         return _radius.get(this);
+        }
+    set radius(value) {
+        if (value <= 0) throw new Error('invalid radius');
+        _radius.set(this, value);
+    }
+}
+const cir = new Circle(2);
+
+// Verify value can be read
+console.log(cir.radius);
+// Verify value can be wrote to
+cir.radius = 10;
+console.log(cir.radius);
+
+// verify that the setter check works:
+cir.radius = -4; // expected: invalid radius error
+// verify that on error the value is unchanged:
+console.log(cir.radius); // Expected: 10
+
+
+// Implementing Getters and Setters are far easier in ES6 Classes.
