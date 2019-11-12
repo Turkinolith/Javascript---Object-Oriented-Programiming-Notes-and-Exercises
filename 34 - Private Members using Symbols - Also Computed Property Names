@@ -1,0 +1,112 @@
+// *** ES6 Classes - Private members using Symbols ***
+/*
+Abstraction is one of the core principals of OO Programing.
+To implement abstraction we use private properties and methods. We hide them so they won't be accessable from the outside.
+In the example below: the radius property is public by default:
+
+class Circle {
+    constructor(radius) {
+        this.radius = radius;
+    }
+}
+
+So, if I create a new object, I can access the property via dot notation
+
+const cir = new Circle(1);
+console.log(cir.radius);
+
+In this case, we want the radius to be public since that is an essential attribute for a circle. but in this case lets imagine we want
+it to be private. 
+*/
+
+// *** There are 3 approaches to make private properties and methods when using ES6 classes. ***
+/*
+First approach (considred to be a terrible one) is using an underscore as a naming convention IE: this._radius
+You can still access this from the outside, it doesn't prevent someone from writing code against this property.
+
+Instead I will go over using ES6 Symbols to do the same, and in the next lesson I'll go over using maps to achive the same thing.
+*/
+
+// *********************************
+// ****  SYMBOL Primitive Type  ****
+// *********************************
+
+const _radius = Symbol(); // The Symbol() function is used to generate a symbol. A symbol is a unique identifier. It's not a constructor function so you don't new it up.
+
+console.log(Symbol() === Symbol()); // Returns: false
+
+// **** NOTE: EVERY TIME THE SYMBOL FUNCTION IS CALLED, YOU GET A NEW UNIQUE VALUE ****
+// You can use that unique value as the property name of an object.
+
+/*
+Remember that in JS there are 2 ways to access a value within an object.
+Dot notation:       this.radius = radius;
+Bracket notation:   this['radius'] = radius;
+The above two lines are exactly the same.
+
+With symbols we can also use a symbol as a property name in bracket notation instead of a string:
+this[_radius] = radius;
+
+Lets see the impact of this change:
+*/
+
+class Circle {
+    constructor(radius) {
+        this[_radius] = radius;
+    }
+}
+const c1 = new Circle(1);
+console.log(c1); // Returns Circle {Symbol(): 1}
+
+/* 
+So, when looking in console you will see Symbol() for the property, but internally all of the values will be unique.
+If you try to directly access the value in the standard way: c1. there will not be a Symbol property to access in code.
+
+** BUT! There is a hack around this! **
+** You generally won't need to do this, but it shows that such a thing can be done **/
+
+console.log(Object.getOwnPropertyNames(c1)); // It returns an empty array because there are no regular properties on this object.
+console.log(Object.getOwnPropertySymbols(c1)); // Returns an array of symbols. So, let's store that in a constant
+const symArray = Object.getOwnPropertySymbols(c1);
+console.log(symArray[0]); // Now we can get the first symbol and store that as a value:
+const key = symArray[0];
+console.log(c1[key]); // And there is the value of the symbol
+c1[key] = 3;
+console.log(c1[key]); // And there, we edited the value of the key.
+
+
+// ****************************************
+// ** How to implement a private method? **
+// ****************************************
+// Before, I went over being able to add a method to the class like draw:
+/*
+class Circle5 {
+    constructor(radius) {
+        this[_radius] = radius;
+    }
+    draw() {
+    }
+}
+*/
+// **************************************
+// NOTE: Computed Property Names!    
+// **************************************
+
+// Similarly, I can define another symbol:
+const _draw = Symbol();
+// to use it, I'd replace the draw method with the symbol, but instead of using the name we'll use an ES6 feature.
+// In ES6 there is Computed Property Names, add brackets and inside them add an expression, when the expression is evaluated the result 
+// of that expression will be used as the name of a property or method. Lets use it to pass the symbol.
+
+class Circle5 {
+    constructor(radius) {
+        this[_radius] = radius;
+    }
+    [_draw]() {
+    }
+}
+// So, the _draw expression will be evaluated we get a unique value and identifier, and because it is put within the brackets that value will be used
+// as the identifier of the method.
+
+const c2 = new Circle5(4);
+console.log(c2)
