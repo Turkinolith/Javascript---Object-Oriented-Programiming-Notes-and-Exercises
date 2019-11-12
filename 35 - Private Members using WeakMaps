@@ -1,0 +1,109 @@
+// *** ES6 Classes - Private members using WeakMaps ***
+
+// Lets turn the radius property into a private property using weakmaps.
+// Weakmaps are a dictionary where keys are objects and values can be anything.
+// Their called "WeakMaps" because the keys are weak, if there are no references to these keys they will be garbage collected.
+// First, lets define a constant, lets start it with underline as that is the convention for hidden properties and methods.
+
+/*
+const _radius = new WeakMap();
+class Circle {
+    constructor(radius) {
+        _radius.set(this, radius);  // Note, the first parameter of set must be an object that will be the first part of the k,v pair. the second will be the value
+
+    }
+}
+// Note, you can get access to the radius property if you get access to the WeakMap.
+// But, later on we'll go over modules and learn how to hide the _radius constant within the module and only export the class.
+// Imagine somewhere lse in the code where we have access to the class, we wouldn't have access to the WeakMap.
+
+const cir = new Circle(1);
+*/
+
+// If we want to access the property inside of the class we can do the following:
+/*
+const _radius = new WeakMap();
+class Circle {
+    constructor(radius) {
+        _radius.set(this, radius);
+    }
+    draw() {
+        console.log(_radius.get(this));
+    }
+}
+const cir = new Circle(1);
+*/
+// Now you can access cir.draw() to get the value.
+
+// How about defining a private method?
+/* 
+const _move = new WeakMap();
+const _radius = new WeakMap();
+class Circle {
+    constructor(radius) {
+        _radius.set(this, radius);
+        _move.set(this,function() {
+            console.log('move', this); // This is added so we can see what "this" means in the below context on line 54
+        });
+    }
+    draw() {
+        _move.get(this)();
+    }
+}
+const cir = new Circle(1); */
+
+// **** EXAMPLE CASE OF 'THIS' ****
+// Let's imagine that in the draw() method, a public method, we want to call _move method, which is a private method.
+// So, in order to access the _move function we use the same technique we used in draw() originally. Lets rewrite line 49 with that in mind.
+// cir.draw(); returns move undefined.
+// This is because the body of a Circle class is executed in strict mode and "this" by default is set to undefined instead of the global object.
+// In this particular implementation lets assume you want to access the instance of the Circle object.
+// Instead of using a regular function, you can use an arrow function and the problem will go away as they use the "this" value of their containing function.
+// Rewritten it looks like so:
+/* 
+const _move = new WeakMap();
+const _radius = new WeakMap();
+class Circle {
+    constructor(radius) {
+        _radius.set(this, radius);
+        _move.set(this, () => {
+            console.log('move', this); // Now, 'this' won't be unbound, it'll be inherited from the constructor function.
+        });
+    }
+    draw() {
+        _move.get(this)();
+    }
+}
+const cir = new Circle(1);
+console.log(cir.draw()); // returns "move Circle {}"
+ */
+
+
+// *** SINGLE WEAKMAP ****
+// The code can be refactored again to use a single WeakMap for both of the private values instead of multiple WeakMaps.
+// Create a single Weakmap, then in the constructor you can move the properties and methods into it as an object using the set method.
+
+// Instructor doesn't like this method as it makes the code hard to read.
+
+const privateProps = new WeakMap();
+class Circle {
+    constructor(radius) {
+    privateProps.set(this, {
+        radius: radius,
+        move: () => {
+            console.log('move', this);
+        }
+    });
+    privateProps.get(this).move
+    }
+
+    draw() {
+        move.get(this)();
+    }
+}
+const cir = new Circle(1);
+
+// In order to access the properties/methods given this set up you have to do this:
+// privateProps.get(this).radius    It gets a bit nasty to dig out the values this way.
+
+// Instructors preferred way is to use a seperate WeakMap for each private member.
