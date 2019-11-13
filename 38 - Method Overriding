@@ -1,0 +1,20 @@
+// *** ES6 Classes - Method Overriding ***
+
+// Lets assume that we want the move method on circles to be different from other tpes of shapes. So, lets reimpliment the move method for circles.
+// Just like in prototypical inheritance, the JS engine first looks foor the move method in its current object, finding that it stops searching up the heirarchy.
+
+// Lets consider we have a situation where we want to use some code from the parent move method. in that case it can be called using the 'super' keyword.
+class Shape {
+    move() {
+        console.log('move');
+    }
+}
+
+class Circle extends Shape {
+    move() {
+        super.move();
+        console.log('circle move');
+    }
+}
+
+const c = new Circle();
