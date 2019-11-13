@@ -1,0 +1,92 @@
+// *** ES6 Classes - Exercise - Implement an ES6 Stack w & wo Abstraction ***
+
+/*
+Implement a stack using ES6 classes.
+it should have 2 essential operations: Push to add an object into the stack, pop to remove objects from the top.
+Unlike an array, you should not be able to access the elements within the stack by index. only remove the top of the stack by calling the pop method.
+sequential uses of the pop method should return the next object while also removing it from the stack.
+
+it should hae a count property that is referenced with a getter. count shows how many entries are in the stack.
+on its prototype it also has a count property referenced with a getter
+it should have 3 public facing methods on its prototype
+peek - should be similar to pop in that it returns the object on top of the stack, but it does not remove it.  If executed when the stack is empty it should throw an error "Stack is empty"
+pop - removes an object from the top of the stack and returns it. If executed when the stack is empty it should throw an error "Stack is empty"
+push - adds an object into the top of the stack.
+*/
+
+
+// ****************************************************
+// ** WORKS WITHOUT ABSTRACTION (and without arrays) **
+// ****************************************************
+/* 
+class Stack {
+    constructor() {
+        this.storage = {};
+        this.storeCount = 0;
+        this.tempData = undefined;
+    }
+    
+    get count() {
+        return Object.keys(this.storage).length;
+    }
+
+    push(pushValue) {
+        this.storage[this.storeCount] = pushValue;
+        this.storeCount++
+    }
+
+    pop() {
+        if (this.storeCount === 0) throw new Error('Stack is empty');
+        this.storeCount--;
+        this.tempData = this.storage[this.storeCount];
+        delete this.storage[this.storeCount];
+        return this.tempData;
+    }
+
+    peek() {
+        if (this.storeCount === 0) throw new Error('Stack is empty');
+        return this.storage[this.storeCount - 1];
+    }
+}
+
+
+const realobj = new Stack();
+
+ */
+
+
+ // **********************************
+ // **  WITH ABSTRACTION and array  **
+ // **********************************
+
+ 
+const _storage = new WeakMap();
+
+class Stack {
+    constructor() {
+        _storage.set(this, []);
+    }
+    
+    get count() {
+        return _storage.get(this).length;
+    }
+
+    push(pushValue) {
+        _storage.get(this).push(pushValue);
+    }
+
+    pop() {
+        const storage = _storage.get(this);
+        if (storage.length === 0) throw new Error('Stack is empty');
+        return storage.pop()
+    }
+
+    get peek() {
+        const storage = _storage.get(this);
+        if (storage.length === 0) throw new Error('Stack is empty');
+        return storage[storage.length - 1];
+    }
+}
+
+
+const realobj = new Stack();
