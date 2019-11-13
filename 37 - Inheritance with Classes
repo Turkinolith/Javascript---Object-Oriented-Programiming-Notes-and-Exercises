@@ -1,0 +1,81 @@
+// *** ES6 Classes - Inheritance with Classes ***
+
+// *******************************
+// ***  INHERITANCE IN CLASSES ***
+// *******************************
+/* 
+class Shape {
+    move() {
+        console.log('move');
+    }
+}
+
+// All we have to do for one class to inherit from another is use the "extends" keyword and the class it is inheriting from. 
+// don't have to reset prototype or constructor. way easier and cleaner.
+class Circle extends Shape {
+    draw() {
+        console.log('draw');
+    }
+}
+
+const c = new Circle(); 
+console.log(c.move());
+console.log(c.draw());
+ */
+// Lets take it to the next level!
+
+// *******************************************************
+// *** INHERITANCE WITH CONSTRUCTORS & 'SUPER' KEYWORD ***
+// *******************************************************
+
+// lets assume all of our shapes need a color. Lets add a constructor to the SHape Class.
+/* 
+class Shape {
+    constructor(color) {
+        this.color = color;
+    }
+    move() {
+        console.log('move');
+    }
+}
+// now, if we add a constructor to the Circle class, lets see what happens:
+class Circle extends Shape {
+    constructor() {
+        
+    }
+    draw() {
+        console.log('draw');
+    }
+}
+
+const c = new Circle();  */
+
+// Returns the error "Uncaught ReferenceError: Must call super constructor in derived class before accessing 'this' or returning from derived constructor
+// at new Circle (index.js:34)"
+
+// If you have a constructor in the parent class, and you have a constructor in the derived class, inside of the derived class constructor you have to make sure to 
+// call the parent class constructor first in order to initialize the base object.
+
+// So, lets fix this:
+class Shape {
+    constructor(color) {
+        this.color = color;
+    }
+    move() {
+        console.log('move');
+    }
+}
+// In the derived constructor we use the "SUPER" keyword to refer to the parent class, you call it like you would a function.
+// In this case, I'll have it pass the "color" argument and I'll add the same argument to the constructor function in Circle that calls it.
+// Can also add additional arguments to pass on like: radius
+class Circle extends Shape {
+    constructor(color, radius) {
+        super(color);
+        this.radius = radius;
+    }
+    draw() {
+        console.log('draw');
+    }
+}
+// Now create 'C' and pass the value of 'color' and radius.
+const c = new Circle('blue', 10); // and now we have a Circle with Color "blue" and radius 10, color is inherited from the parent Shape class and we added radius to the circle class itself.
