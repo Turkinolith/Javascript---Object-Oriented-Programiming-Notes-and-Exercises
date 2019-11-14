@@ -1,0 +1,28 @@
+// Note: This was localy saved as circle.js
+
+// ******* Implementation Detail *********
+const _radius = new WeakMap();
+
+// ******* Public Interface *********
+class Circle {
+    constructor(radius) {
+        _radius.set(this, radius);
+    }
+    draw() {
+        console.log('Circle with radius ' + _radius.get(this));
+    }
+}
+
+// To export objects in Node or CommonJS format is:
+// keyword 'module' which refers to the current module, it has a property called 'exports' which is an object. We can add one or more properties to it. So we can add circle and set it to a circle class as below:
+// module.exports.Circle = Circle;
+
+// Since I'm exporting a single line, it can be simplified like so:
+module.exports = Circle;
+// So when we import the circle module we get the Circle class.
+
+// If we had multiple classes and we wanted to export them we can do this:
+/*
+module.exports.Circle = Circle;
+module.exports.Square = Square;
+*/
