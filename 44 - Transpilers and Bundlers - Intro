@@ -1,0 +1,6 @@
+// *** ES6 Tooling - ES6 Tooling ***
+Note: These tools are only important in browser.
+
+Transpiler - Combination of 2 words: Translator + Compiler, converts JS code into code that browsers can read. An example of a popular Transpiler is "BABEL"
+
+Bundler - Responsible for combining all JS files into a single file, gets rid of comments and white space, and "uglify" the code by shortening the names of identifiers.  A popular one is "WEBPACK"
