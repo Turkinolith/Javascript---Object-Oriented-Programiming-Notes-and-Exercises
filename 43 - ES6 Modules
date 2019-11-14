@@ -1,0 +1,24 @@
+// *** ES6 Tooling - ES6 Modules ***
+/*
+Similar to CommonJS, lets take out the WeakMap and the Circle class, then export only the Circle class to use as the public interface of the module.
+First, make a new file. I'll call it es6_circle.js, and copy the const and class into it.
+
+To import, use the syntax: import {Circle} from './circle';
+Note: there will be an error: unexpected token {. There is a "proper" way to fix this using webpack but instead I'll go over a quick work-around. *It's not something to do in production, just for this demo.*
+
+To do the work-around: go to index.html, go to the script element, add into it type="module", with this the browser will treat index.js as a module so it will understand the curly braces in the import.
+the HTML line will now look like this: <script type="module" src="index.js"></script>
+Now, we get a different error: GET http://127.0.0.1:5500/es6_circle net::ERR_ABORTED 404 (Not Found)
+its looking at the local host, on port 5500. because on line 16 we're looking for the module file, thats why we have an http request at that end point, but the name of the file is not es6_circle, its es6_circle.js
+So, again as a temporary work-around, we add the .js to the import path.
+*/
+
+import {Circle} from './es6_circle.js';
+
+const cir = new Circle(1);
+cir.draw();
+
+
+// Take Away - Syntax of ES6 modules:
+// export - keyword used to export one or more objects.
+// import - used to import the objects from the module path.
