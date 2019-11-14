@@ -1,0 +1,40 @@
+// *** ES6 Tooling - Modules ***
+/*
+Modules is the splitting up code into multiple files
+
+It has a number of benefits:
+Modularity, 
+Maintainability, 
+Reuse of Code in other parts of the app or in other apps, 
+Abstraction of code.
+
+*/
+/*
+Example:
+Earlier I wrote the below code, it uses _radius which is a weakmap to implement a private property.
+in this code if we have access to the weakmap we can read the private property by doing: _radius.get(cir) and get the value of the property
+What we should do is take the Circle class and the _radius weakmap out of the file, put it in a seperate file which we call a Module, and expose only the Circle class to the outside.
+So we can import the file, create a circle object, but won't get access to the _radius Weakmap. 
+This is Abstraction in practice.
+*/
+
+const _radius = new WeakMap();
+class Circle {
+    constructor(radius) {
+        _radius.set(this, radius);
+    }
+    draw() {
+        console.log('Circle with radius ' + _radius.get(this));
+    }
+}
+const cir = new Circle(1);
+
+
+// Some quick Module notes: There were no JS modules in ES5. Some smart developers came up with ways to define modules and those are referred to as "Module Formats"
+// Some popular ones are: 
+// AMD [Asynchronous module definition] (Primarily used in browser apps.), 
+// CommonJS (Primarily used in Node.js)
+// UMD [Universal Module Definition] (Used both in browser and in Node.js)
+// ES6 Modules - As of ES6 Javascript now natively supports a module format.
+
+// Going forward, will focus only on 2 of these: ES6 (browser) and CommonJS (Node.js).
