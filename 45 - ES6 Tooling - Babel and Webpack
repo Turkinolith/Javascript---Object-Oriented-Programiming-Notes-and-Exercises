@@ -1,0 +1,43 @@
+// *** ES6 Tooling - ES6 Tooling ***
+/*
+Note: These tools are only important in browser.
+
+Transpiler - Combination of 2 words: Translator + Compiler, converts JS code into code that browsers can read. An example of a popular Transpiler is "BABEL"
+
+Bundler - Responsible for combining all JS files into a single file, gets rid of comments and white space, and "uglify" the code by shortening the names of identifiers.  A popular one is "WEBPACK"
+
+*/
+
+// *****************
+// **    BABEL    **
+// *****************
+// Will need to use npm *node package manager* from node to install 3rd party tools.
+
+// Some quick node stuff: when you use "npm init --yes" it creates a file in the target folder called "package.json" which is an identification for the application.
+// To install babel you need 3 packages:  Note on the command structure: i = install, @= specify a version number
+// #1: npm i babel-cli@6.26.0   -- Babel command line interface 
+// #2: babel-core@6.26.0        -- THe core with all of the logic
+// #3: babel-preset-env@1.6.1   -- In babel there is a plugin for every new JS feature starting with ES6. You could feature by feature install them, or get a preset which is a combo pack.
+// You can string all of these together into one line, and add some flags at the end this means saving them as development dependancies. That means they wont be pushed into production they are just for development.
+// npm i babel-cli@6.26.0 babel-core@6.26.0 babel-preset-env@1.6.1 --save-dev
+
+// After you create a JS file you need to go to package.json in the target folder, go to the scripts section, delete the test data and add a new entry.
+// what the values to the key are doing: babel allows it to run from the terminal, --presets env loads the preset env, after that we add the name of the source file "index.js", then we add -o output will bein a folder like 'build/index.js'
+// "babel": "babel --presets env index.js -o build/index.js"
+// After doing this, you will need to create the file or you will get an error.
+
+// Basicly the scripts that we define under the scripts section, we can run using npm.
+// so if we go to terminal and run the command: npm run babel, it will execute the command defined above in the terminal.
+// its quicker to type this than to do the big compile string.
+// So, go to terminal and run the command and it will compile the code and store it in build/index.js.
+// Note in ES5 we don't have let or const, so our variables get converted to var. we use strict mode by default as a best practice.
+// this is just a taste on how it works, there can be a whole course on using babel.
+// One other thing to note: the way the json file is set up only index.js is compiled, a real project would have several more files. so we don't want to repeat this for every file.
+// This is where WEBPACK comes in to get all of the files and put them in a bundle.
+// However, before putting those files into a bundle we're going to run each file through babel.
+// Reminder: this was a demonstration of Babel, this would not be normal work-flow.
+
+// ***************
+// **  WEBPACK  **
+// ***************
+// This would be day-to-day workflow, however the tutorial was outdated and couldn't be used. saved the video file to reference later.
