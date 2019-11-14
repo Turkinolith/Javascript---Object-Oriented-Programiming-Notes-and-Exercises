@@ -1,0 +1,13 @@
+// this file is localy saved as es6_circle.js
+
+// Just like in node, everything here is considered private unless exported. To export put the "export" keyword in front of the class you want to reveal.
+
+const _radius = new WeakMap();
+export class Circle {
+    constructor(radius) {
+        _radius.set(this, radius);
+    }
+    draw() {
+        console.log('Circle with radius ' + _radius.get(this));
+    }
+}
