@@ -90,3 +90,42 @@ class Stack {
 
 
 const realobj = new Stack();
+
+
+
+
+// ********************
+// **     QUEUE      **
+// ********************
+
+ 
+const _storage = new WeakMap();
+
+class Queue {
+    constructor() {
+        _storage.set(this, []);
+    }
+    
+    get count() {
+        return _storage.get(this).length;
+    }
+
+    push(pushValue) {
+        _storage.get(this).push(pushValue);
+    }
+
+    dequeue() {
+        const storage = _storage.get(this);
+        if (storage.length === 0) throw new Error('Queue is empty');
+        return storage.shift()
+    }
+
+    get peek() {
+        const storage = _storage.get(this);
+        if (storage.length === 0) throw new Error('Queue is empty');
+        return storage[0];
+    }
+}
+
+
+const realobj = new Queue();
