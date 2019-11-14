@@ -1,0 +1,41 @@
+// *** ES6 Tooling - CommonJS Modules ***
+// Note: this was localy saved as index.js
+// Note: in the VSCODE terminal you can type node index.js to run the script.
+
+/*
+Basic Rule about modularity:  Things that are highly related should go together. This is called "Cohesion"
+
+What's highly related in the below code?
+The _radius WeakMap is used within the Circle class, so that makes them both highly related. Lets take them out of index.js and put them in a seperate file.
+Pretend the below commented out code was cut. it is now saved in circle.js
+*/
+
+
+/* const _radius = new WeakMap();
+class Circle {
+    constructor(radius) {
+        _radius.set(this, radius);
+    }
+    draw() {
+        console.log('Circle with radius ' + _radius.get(this));
+    }
+} */
+
+// Note, require needs a relative path to the module file, in a string, use ./ to refer to the current folder. You don't need to add the extension.
+// When something is required, we get returned whatever object is exported out of the module. This data needs to be stored in a variable or constant.
+const Circle = require('./circle');
+
+const cir = new Circle(1);
+cir.draw();
+
+
+/*
+By Default, everything within a module is considered to be Private. It won't be accessable on the outside unless we explicitly export it.
+You will want to import the module first thing, just like in Python. We use the "require()" function for that.
+
+Note in this example: I'm only exporting the Circle class, not the _radius WeakMap. So it's not accessable in index.
+
+WHat we are exporting is what we call the: ******* Public Interface *********
+The _radius in this example, what we're not exporting, is the: ******* Implementation Detail *********
+
+*/
